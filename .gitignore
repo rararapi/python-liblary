@@ -1,0 +1,5 @@
+*
+!.gitignore
+!liblary.py
+!/.vscode/
+!/.vscode/plainpython.code-snippets
