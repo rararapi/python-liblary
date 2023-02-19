@@ -1,45 +1,45 @@
 {
-	"n=in": {
+	"n=int(input())": {
 		"prefix": "n=",
 		"body": "n=int(input())",
 	},
-	"k=in": {
+	"k=int(input())": {
 		"prefix": "k=",
 		"body": "k=int(input())",
 	},
-	"m=in": {
+	"m=int(input())": {
 		"prefix": "m=",
 		"body": "m=int(input())",
 	},
-	"s=": {
+	"s=input()": {
 		"prefix": "s=",
 		"body": "s=input()",
 	},
-	"n,m=": {
+	"n,m=map(int,input().split())": {
 		"prefix": "n,m=",
 		"body": "n,m=map(int,input().split())",
 	},
-	"h,w=": {
+	"h,w=map(int,input().split())": {
 		"prefix": "h,w=",
 		"body": "h,w=map(int,input().split())",
 	},
-	"a=li": {
-		"prefix": "a=li",
+	"a=list(map(int,input().split()))": {
+		"prefix": "a=",
 		"body": "a=list(map(int,input().split()))",
 	},
 	"int(input())": {
 		"prefix": "ii",
 		"body": "int(input())",
 	},
-	"for": {
+	"for i in range(n)": {
 		"prefix": "fo",
 		"body": "for i in range(n)",
 	},
-	"for k": {
+	"for k in range(n):": {
 		"prefix": "fok",
 		"body": "for k in range(n):",
 	},
-	"for m": {
+	"for k in range(m):": {
 		"prefix": "fom",
 		"body": "for k in range(m):",
 	},
@@ -47,32 +47,36 @@
 		"prefix": "fo_",
 		"body": "for _ in range(n):",
 	},
-	"map": {
+	"input().split()": {
+		"prefix": "is",
+		"body": "input().split()",
+	},
+	"map(int,input().split())": {
 		"prefix": "ma",
 		"body": "map(int,input().split())",
 	},
-	"map-1": {
+	"map(lambda x:int(x)-1,input().split())": {
 		"prefix": "mala",
 		"body": "map(lambda x:int(x)-1,input().split())",
 	},
-	"list": {
+	"list(map(int,input().split()))": {
 		"prefix": "li",
 		"body": "list(map(int,input().split()))",
 	},
-	"i-1": {
+	"lambda x:int(x)-1": {
 		"prefix": "la",
 		"body": "lambda x:int(x)-1",
 	},
-	"defaultdict": {
+	"di=defaultdict()": {
 		"prefix": "di=",
 		"body": "from collections import defaultdict\ndi=defaultdict()",
 	},
-	"sys.set": {
+	"sys": {
 		"prefix": "sys",
 		"body": "import sys\nsys.setrecursionlimit(10**6)",
 	},
-	"uf":{
-		"prefix": "uf",
+	"uf=":{
+		"prefix": "uf=",
 		"body": "from collections import defaultdict\nclass UnionFind():\n\tdef __init__(self, n):\n\t\tself.n = n\n\t\tself.parents = [-1] * n\n\n\tdef find(self, x):\n\t\tif self.parents[x] < 0:\n\t\t\treturn x\n\t\telse:\n\t\t\tself.parents[x] = self.find(self.parents[x])\n\t\t\treturn self.parents[x]\n\n\tdef union(self, x, y):\n\t\tx = self.find(x)\n\t\ty = self.find(y)\n\n\t\tif x == y:\n\t\t\treturn\n\n\t\tif self.parents[x] > self.parents[y]:\n\t\t\tx, y = y, x\n\n\t\tself.parents[x] += self.parents[y]\n\t\tself.parents[y] = x\n\n\tdef size(self, x):\n\t\treturn -self.parents[self.find(x)]\n\n\tdef same(self, x, y):\n\t\treturn self.find(x) == self.find(y)\n\n\tdef members(self, x):\n\t\troot = self.find(x)\n\t\treturn [i for i in range(self.n) if self.find(i) == root]\n\n\tdef roots(self):\n\t\treturn [i for i, x in enumerate(self.parents) if x < 0]\n\n\tdef group_count(self):\n\t\treturn len(self.roots())\n\n\tdef all_group_members(self):\n\t\tgroup_members = defaultdict(list)\n\t\tfor member in range(self.n):\n\t\t\tgroup_members[self.find(member)].append(member)\n\t\treturn group_members\n\nuf=UnionFind(n)",
 	},
 	"INF":{
