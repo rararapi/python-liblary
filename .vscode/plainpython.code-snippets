@@ -43,6 +43,10 @@
 		"prefix": "fom",
 		"body": "for k in range(m):",
 	},
+	"for i in range(h):": {
+		"prefix": "foh",
+		"body": "for i in range(h)",
+	},
 	"for _": {
 		"prefix": "fo_",
 		"body": "for _ in range(n):",
@@ -78,6 +82,10 @@
 	"uf=":{
 		"prefix": "uf=",
 		"body": "from collections import defaultdict\nclass UnionFind():\n\tdef __init__(self, n):\n\t\tself.n = n\n\t\tself.parents = [-1] * n\n\n\tdef find(self, x):\n\t\tif self.parents[x] < 0:\n\t\t\treturn x\n\t\telse:\n\t\t\tself.parents[x] = self.find(self.parents[x])\n\t\t\treturn self.parents[x]\n\n\tdef union(self, x, y):\n\t\tx = self.find(x)\n\t\ty = self.find(y)\n\n\t\tif x == y:\n\t\t\treturn\n\n\t\tif self.parents[x] > self.parents[y]:\n\t\t\tx, y = y, x\n\n\t\tself.parents[x] += self.parents[y]\n\t\tself.parents[y] = x\n\n\tdef size(self, x):\n\t\treturn -self.parents[self.find(x)]\n\n\tdef same(self, x, y):\n\t\treturn self.find(x) == self.find(y)\n\n\tdef members(self, x):\n\t\troot = self.find(x)\n\t\treturn [i for i in range(self.n) if self.find(i) == root]\n\n\tdef roots(self):\n\t\treturn [i for i, x in enumerate(self.parents) if x < 0]\n\n\tdef group_count(self):\n\t\treturn len(self.roots())\n\n\tdef all_group_members(self):\n\t\tgroup_members = defaultdict(list)\n\t\tfor member in range(self.n):\n\t\t\tgroup_members[self.find(member)].append(member)\n\t\treturn group_members\n\nuf=UnionFind(n)",
+	},
+	"lcm":{
+		"prefix": "lcm",
+		"body": "from math import gcd\ndef lcm(a,b):\n\treturn a//gcd(a,b)*b",
 	},
 	"INF":{
 		"prefix": "INF",
