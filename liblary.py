@@ -102,7 +102,6 @@ class maxflow_edge:
 		self.to = to
 		self.cap = cap
 		self.rev = rev
-# 深さ優先探索
 def dfs(pos, goal, F, G, used):
 	if pos == goal:
 		return F # ゴールに到着：フローを流せる！
@@ -219,3 +218,28 @@ def segfunc(x, y):
 INF=float('inf')
 # 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
 ide_ele = 
+
+# https://output-zakki.com/topological_sort/
+# トポロジカルソート
+from collections import deque
+def topological_sort(G, into_num):
+    #入ってくる有向辺を持たないノードを列挙
+    q = deque()
+    #V: 頂点数
+    for i in range(V):
+        if into_num[i]==0:
+            q.append(i)
+    
+    #以下、幅優先探索
+    ans = []
+    while q:
+        v = q.popleft()
+        ans.append(v)
+        for adj in G[v]:
+            into_num[adj] -= 1 #入次数を減らす
+            if into_num[adj]==0:
+                q.append(adj) #入次数が0になったら、キューに入れる
+    
+    return ans
+
+
