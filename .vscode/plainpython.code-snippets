@@ -49,7 +49,7 @@
 	},
 	"for i in range(q):": {
 		"prefix": "foq",
-		"body": "for i in range(h)",
+		"body": "for i in range(q):",
 	},
 	"for _": {
 		"prefix": "fo_",
