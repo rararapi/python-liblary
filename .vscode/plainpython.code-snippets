@@ -27,6 +27,10 @@
 		"prefix": "a=",
 		"body": "a=list(map(int,input().split()))",
 	},
+	"input()": {
+		"prefix": "inp",
+		"body": "input()",
+	},
 	"int(input())": {
 		"prefix": "ii",
 		"body": "int(input())",
