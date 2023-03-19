@@ -47,6 +47,10 @@
 		"prefix": "fom",
 		"body": "for k in range(m):",
 	},
+	"for i in range(w):": {
+		"prefix": "fow",
+		"body": "for i in range(w)",
+	},
 	"for i in range(h):": {
 		"prefix": "foh",
 		"body": "for i in range(h)",
