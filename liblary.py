@@ -214,7 +214,7 @@ class SegTree:
         return res
 # 最小:min(x,y) 最大:max(x,y) 区間和:x+y 区間積:x*y 最大公約数 math.gcd(x,y)
 def segfunc(x, y):
-    return 
+    # return 
 INF=float('inf')
 # 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
 ide_ele = 
