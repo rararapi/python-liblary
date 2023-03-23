@@ -87,6 +87,10 @@
 		"prefix": "di=",
 		"body": "from collections import defaultdict\ndi=defaultdict()",
 	},
+	"c=Counter()": {
+		"prefix": "c=",
+		"body": "from collections import Counter\nc=Counter()",
+	},
 	"sys": {
 		"prefix": "sys",
 		"body": "import sys\nsys.setrecursionlimit(10**6)",
