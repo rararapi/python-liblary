@@ -91,6 +91,10 @@
 		"prefix": "c=",
 		"body": "from collections import Counter\nc=Counter()",
 	},
+	"heapq": {
+		"prefix": "heap",
+		"body": "from heapq import heapify,heappop,heappush\n",
+	},
 	"sys": {
 		"prefix": "sys",
 		"body": "import sys\nsys.setrecursionlimit(10**6)",
