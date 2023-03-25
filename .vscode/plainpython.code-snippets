@@ -39,13 +39,9 @@
 		"prefix": "fo",
 		"body": "for i in range(n)",
 	},
-	"for k in range(n):": {
-		"prefix": "fok",
-		"body": "for k in range(n):",
-	},
 	"for k in range(m):": {
 		"prefix": "fom",
-		"body": "for k in range(m):",
+		"body": "for j in range(m):",
 	},
 	"for i in range(w):": {
 		"prefix": "fow",
