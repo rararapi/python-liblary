@@ -55,6 +55,11 @@ def Base_10_to_n(X, n):
         return Base_10_to_n(int(X/n), n)+str(X%n)
     return str(X%n)
 
+# 重複組み合わせの総数
+import math
+def combr(n, r):
+    return math.comb(n + r - 1, r)
+
 # フェニック木
 class Fenwick_Tree:
     def __init__(self, n):
