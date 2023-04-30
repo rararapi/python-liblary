@@ -83,6 +83,10 @@
 		"prefix": "di=",
 		"body": "from collections import defaultdict\ndi=defaultdict()",
 	},
+	"edge=": {
+		"prefix": "edge=",
+		"body": "from collections import defaultdict\nedge=defaultdict(list)\n",
+	},
 	"deque": {
 		"prefix": "deque",
 		"body": "from collections import deque\ndeq=deque()",
