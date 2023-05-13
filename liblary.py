@@ -178,6 +178,7 @@ class RollingHash:
             self.base_mod[i + 1] = self.base_mod[i] * base % mod
 
     def get(self, left, right):
+        """[l,r)のハッシュ値を取得"""
         return (self.hash[right] - self.hash[left] * self.base_mod[right - left]) % self.mod
 
 
