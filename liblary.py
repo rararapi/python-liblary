@@ -108,12 +108,6 @@ class Fenwick_Tree:
         return s
 
 
-# lcm
-from math import gcd
-def lcm(a,b):
-    return a//gcd(a,b)*b
-
-
 # メモ化
 from functools import lru_cache
 @lru_cache
