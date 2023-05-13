@@ -15,7 +15,8 @@ def prime_factorize(n):
     if n != 1:
         a.append(n)
     return a
-    
+
+
 # 約数列挙
 def make_divisors(n):
     lower_divisors , upper_divisors = [], []
@@ -27,6 +28,7 @@ def make_divisors(n):
                 upper_divisors.append(n//i)
         i += 1
     return lower_divisors + upper_divisors[::-1]
+
 
 # 素数判定
 import math
@@ -42,6 +44,7 @@ def sieve_of_eratosthenes(n):
 
     return prime
 
+
 # n進数から10進数へ
 def Base_n_to_10(X,n):
     out = 0
@@ -49,16 +52,19 @@ def Base_n_to_10(X,n):
         out += int(X[-i])*(n**(i-1))
     return out
 
+
 # 10進数からn進数へ
 def Base_10_to_n(X, n):
     if (int(X/n)):
         return Base_10_to_n(int(X/n), n)+str(X%n)
     return str(X%n)
 
+
 # 重複組み合わせの総数
 import math
 def combr(n, r):
     return math.comb(n + r - 1, r)
+
 
 # 二項係数をmod pで
 def cmb(n, r, mod):
@@ -71,7 +77,6 @@ N = 10 ** 6  # N は必要分だけ用意する
 fact = [1, 1]  # fact[n] = (n! mod p)
 factinv = [1, 1]  # factinv[n] = ((n!)^(-1) mod p)
 inv = [0, 1]  # factinv 計算用
- 
 for i in range(2, N + 1):
     fact.append((fact[-1] * i) % mod)
     inv.append((-inv[mod % i] * (mod // i)) % mod)
@@ -102,16 +107,19 @@ class Fenwick_Tree:
             r -= r & -r
         return s
 
+
 # lcm
 from math import gcd
 def lcm(a,b):
     return a//gcd(a,b)*b
+
 
 # メモ化
 from functools import lru_cache
 @lru_cache
 def calc(x):
     pass
+
 
 # https://tjkendev.github.io/procon-library/python/geometry/polygon_area.html
 # 多角形の面積
@@ -125,6 +133,7 @@ class maxflow_edge:
 		self.to = to
 		self.cap = cap
 		self.rev = rev
+                
 def dfs(pos, goal, F, G, used):
 	if pos == goal:
 		return F # ゴールに到着：フローを流せる！
@@ -141,6 +150,7 @@ def dfs(pos, goal, F, G, used):
 				return flow
 	# すべての辺を探索しても見つからなかった…
 	return 0
+
 #  頂点 s から頂点 t までの最大フローの総流量を返す（頂点数 N、辺のリスト edges）
 def maxflow(N, s, t, edges):
 	# 初期状態の残余グラフを構築
@@ -160,6 +170,7 @@ def maxflow(N, s, t, edges):
 			break # フローを流せなくなったら、操作終了
 	return total_flow
 
+
 # ローリングハッシュ
 class RollingHash:
     def __init__(self, string, base=29, mod=10 ** 9 + 7):
@@ -174,6 +185,7 @@ class RollingHash:
 
     def get(self, left, right):
         return (self.hash[right] - self.hash[left] * self.base_mod[right - left]) % self.mod
+
 
 # https://qiita.com/takayg1/items/c811bd07c21923d7ec69
 # セグメント木
@@ -242,6 +254,7 @@ INF=float('inf')
 # 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
 ide_ele = 
 
+
 # https://output-zakki.com/topological_sort/
 # トポロジカルソート
 from collections import deque
@@ -264,6 +277,7 @@ def topological_sort(G, into_num):
                 q.append(adj) #入次数が0になったら、キューに入れる
     
     return ans
+
 
 # 行列
 import math
