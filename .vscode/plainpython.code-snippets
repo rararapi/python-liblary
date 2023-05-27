@@ -154,7 +154,7 @@
 		"body": "ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'",
 	},
 	"bit_count":{
-		"prefix": "bit_count",
+		"prefix": "bit_c",
 		"body": "def bit_count(self):\n\treturn bin(self).count('1')",
 	},
 }
