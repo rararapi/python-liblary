@@ -89,7 +89,7 @@
 	},
 	"deque": {
 		"prefix": "deque",
-		"body": "from collections import deque\ndeq=deque()",
+		"body": "from collections import deque\nque=deque()",
 	},
 	"c=Counter()": {
 		"prefix": "c=",
