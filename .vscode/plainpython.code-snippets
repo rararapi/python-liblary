@@ -164,5 +164,17 @@
   "st=": {
     "prefix": "st=",
     "body": ["# セグメント木\nclass SegTree:\n\t'''\n\tinit(init_val, ide_ele): 配列init_valで初期化 O(N)\n\tupdate(k, x): k番目の値をxに更新 O(logN)\n\tquery(l, r): 区間[l, r)をsegfuncしたものを返す O(logN)\n\t'''\n\tdef __init__(self, init_val, segfunc, ide_ele):\n\t\t'''\n\t\tinit_val: 配列の初期値\n\t\tsegfunc: 区間にしたい操作\n\t\tide_ele: 単位元\n\t\tn: 要素数\n\t\tnum: n以上の最小の2のべき乗\n\t\ttree: セグメント木(1-index)\n\t\t'''\n\t\tn = len(init_val)\n\t\tself.segfunc = segfunc\n\t\tself.ide_ele = ide_ele\n\t\tself.num = 1 << (n - 1).bit_length()\n\t\tself.tree = [ide_ele] * 2 * self.num\n\t\t# 配列の値を葉にセット\n\t\tfor i in range(n):\n\t\t\tself.tree[self.num + i] = init_val[i]\n\t\t# 構築していく\n\t\tfor i in range(self.num - 1, 0, -1):\n\t\t\tself.tree[i] = self.segfunc(self.tree[2 * i], self.tree[2 * i + 1])\n\n\tdef update(self, k, x):\n\t\t'''\n\t\tk番目の値をxに更新\n\t\tk: index(0-index)\n\t\tx: update value\n\t\t'''\n\t\tk += self.num\n\t\tself.tree[k] = x\n\t\twhile k > 1:\n\t\t\tself.tree[k >> 1] = self.segfunc(self.tree[k], self.tree[k ^ 1])\n\t\t\tk >>= 1\n\n\tdef query(self, l, r):\n\t\t'''\n\t\t[l, r)のsegfuncしたものを得る\n\t\tl: index(0-index)\n\t\tr: index(0-index)\n\t\t'''\n\t\tres = self.ide_ele\n\n\t\tl += self.num\n\t\tr += self.num\n\t\twhile l < r:\n\t\t\tif l & 1:\n\t\t\t\tres = self.segfunc(res, self.tree[l])\n\t\t\t\tl += 1\n\t\t\tif r & 1:\n\t\t\t\tres = self.segfunc(res, self.tree[r - 1])\n\t\t\tl >>= 1\n\t\t\tr >>= 1\n\t\treturn res\n# 最小:min(x,y) 最大:max(x,y) 区間和:x+y 区間積:x*y 最大公約数 math.gcd(x,y)\ndef segfunc(x, y):\n\t# return \nINF=float('inf')\n# 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0\nide_ele = \n"]
+  },
+  "walk": {
+    "prefix": "walk",
+    "body": [
+      "walk=[",
+      "\t(1,0),",
+      "\t(-1,0),",
+      "\t(0,1),",
+      "\t(0,-1),",
+      "]",
+      ""
+    ]
   }
 }
