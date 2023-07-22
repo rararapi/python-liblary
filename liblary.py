@@ -505,3 +505,13 @@ def pow(A, B, p):
         A = (A * A) % p
     return res
 
+# LIS(最長増加部分列)
+import bisect
+seq = []
+LIS = [seq[0]]
+for i in range(len(seq)):
+    if seq[i] > LIS[-1]:
+        LIS.append(seq[i])
+    else:
+        LIS[bisect.bisect_left(LIS, seq[i])] = seq[i]
+
