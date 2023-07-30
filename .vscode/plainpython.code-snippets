@@ -59,6 +59,10 @@
     "prefix": "fo_",
     "body": "for _ in range(n):"
   },
+  "for _ in range(int(input)):": {
+    "prefix": "forii",
+    "body": "for _ in range(int(input())):"
+  },
   "input().split()": {
     "prefix": "is",
     "body": "input().split()"
