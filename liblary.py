@@ -359,6 +359,94 @@ def topological_sort(G, into_num):
     return ans
 
 
+# ポテンシャル付きUnion-Find
+from typing import Callable, Generic, TypeVar, List
+T = TypeVar('T')
+# 初期化関数
+def init() -> int:
+    return 0  # 整数の場合、単位元は 0 とします
+
+# 2項間加算関数
+def add(a: int, b: int) -> int:
+    return a + b
+
+# 逆関数
+def sub(a: int, b: int) -> int:
+    return a - b
+ 
+class UnionFindWithPotential(Generic[T]):
+ 
+    def __init__(self,
+                 n: int,
+                 init: Callable[[], T],
+                 func: Callable[[T, T], T],
+                 rev_func: Callable[[T, T], T]):
+        """
+        :param n:
+        :param init: 単位元の生成関数
+        :param func: 2項間加算関数（add）
+        :param rev_func: 逆関数（sub）
+        """
+        self.table: List[int] = [-1] * n
+        self.values: List[T] = [init() for _ in range(n)]
+        self.init: Callable[[], T] = init
+        self.func: Callable[[T, T], T] = func
+        self.rev_func: Callable[[T, T], T] = rev_func
+ 
+    def root(self, x: int) -> int:
+        stack = []
+        tbl = self.table
+        vals = self.values
+ 
+        while tbl[x] >= 0:
+            stack.append(x)
+            x = tbl[x]
+        if stack:
+            val = self.init()
+            while stack:
+                y = stack.pop()
+                val = self.func(val, vals[y])
+                vals[y] = val
+                tbl[y] = x
+        return x
+ 
+    def is_same(self, x: int, y: int) -> bool:
+        return self.root(x) == self.root(y)
+ 
+    def diff(self, x: int, y: int) -> T:
+        """
+        x と y の差（y - x）を取得。同じグループに属さない場合は None。
+        """
+        if not self.is_same(x, y):
+            return None
+        vx = self.values[x]
+        vy = self.values[y]
+        return self.rev_func(vy, vx)
+ 
+    def unite(self, x: int, y: int, d: T) -> bool:
+        """
+        x と y のグループを、y - x = d となるように統合。
+        既に x と y が同グループで、矛盾する場合は AssertionError。矛盾しない場合はFalse。
+        同グループで無く、新たな統合が発生した場合はTrue。
+        """
+        rx = self.root(x)
+        ry = self.root(y)
+        vx = self.values[x]
+        vy = self.values[y]
+        if rx == ry:
+            assert self.rev_func(vy, vx) == d
+            return False
+ 
+        rd = self.rev_func(self.func(vx, d), vy)
+        self.table[rx] += self.table[ry]
+        self.table[ry] = rx
+        self.values[ry] = rd
+        return True
+ 
+    def get_size(self, x: int) -> int:
+        return -self.table[self.root(x)]
+
+
 # 行列積
 def dot(a, b):
     if len(a[0]) != len(b):
