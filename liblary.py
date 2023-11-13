@@ -252,6 +252,10 @@ class LazySegTree_RAQ:
             r >>= 1
         return res
 
+# 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
+ide_ele = 0
+
+
 # 遅延セグ木(区間更新用)
 def segfunc(x,y):
     return min(x,y)
@@ -334,6 +338,9 @@ class LazySegTree_RUQ:
             l >>= 1
             r >>= 1
         return res
+
+# 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
+ide_ele = 0
 
 # https://output-zakki.com/topological_sort/
 # トポロジカルソート
