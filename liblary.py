@@ -480,7 +480,7 @@ def mapping(f,x):
 def composition(f,g):
     """更新で使うパラメータの合成方法"""
     pass
-    # return ((f[0]*g[0])%mod,(g[1]*f[0]+f[1])%mod)
+    # return 
 
 
 # https://output-zakki.com/topological_sort/
