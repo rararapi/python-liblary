@@ -182,8 +182,6 @@ class RollingHash:
         return (self.hash[right] - self.hash[left] * self.base_mod[right - left]) % self.mod
 
 # 遅延セグ木(区間加算用）
-def segfunc(x,y):
-    return x+y
 class LazySegTree_RAQ:
     def __init__(self,init_val,segfunc,ide_ele):
         n = len(init_val)
@@ -252,13 +250,12 @@ class LazySegTree_RAQ:
             r >>= 1
         return res
 
-# 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
+def segfunc(x,y):
+    return x+y
 ide_ele = 0
 
 
 # 遅延セグ木(区間更新用)
-def segfunc(x,y):
-    return min(x,y)
 class LazySegTree_RUQ:
     def __init__(self,init_val,segfunc,ide_ele):
         n = len(init_val)
@@ -339,6 +336,10 @@ class LazySegTree_RUQ:
             r >>= 1
         return res
 
+# 最小:min(x,y) 最大:max(x,y) 区間和:x+y 区間積:x*y 最大公約数 math.gcd(x,y)
+def segfunc(x, y):
+    pass
+    # return 
 # 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
 ide_ele = 0
 
