@@ -469,6 +469,20 @@ class lazy_segtree():
             if (r&-r)==r:break
         return 0
 
+def operate(a,b):
+    """二項演算"""
+    pass
+    # return 
+def mapping(f,x):
+    """ノードの更新方法"""
+    pass
+    # return 
+def composition(f,g):
+    """更新で使うパラメータの合成方法"""
+    pass
+    # return ((f[0]*g[0])%mod,(g[1]*f[0]+f[1])%mod)
+
+
 # https://output-zakki.com/topological_sort/
 # トポロジカルソート
 from collections import deque
