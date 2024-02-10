@@ -72,7 +72,7 @@ def cmb(n, r, mod):
         return 0
     r = min(r, n - r)
     return fact[n] * factinv[r] * factinv[n-r] % mod
-mod = 10 ** 9 + 7
+mod=998244353
 N = 10 ** 6  # N は必要分だけ用意する
 fact = [1, 1]  # fact[n] = (n! mod p)
 factinv = [1, 1]  # factinv[n] = ((n!)^(-1) mod p)
