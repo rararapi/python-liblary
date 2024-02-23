@@ -471,16 +471,13 @@ class lazy_segtree():
 
 def operate(a,b):
     """二項演算"""
-    pass
-    # return 
+    return 
 def mapping(f,x):
     """ノードの更新方法"""
-    pass
-    # return 
+    return 
 def composition(f,g):
     """更新で使うパラメータの合成方法"""
-    pass
-    # return 
+    return 
 
 
 # https://output-zakki.com/topological_sort/
