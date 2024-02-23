@@ -82,69 +82,6 @@ for i in range(2, N + 1):
     inv.append((-inv[mod % i] * (mod // i)) % mod)
     factinv.append((factinv[-1] * inv[-1]) % mod)
 
-
-# フェニック木
-class Fenwick_Tree:
-    def __init__(self, n):
-        self._n = n
-        self.data = [0] * n
- 
-    def add(self, p, x):
-        assert 0 <= p < self._n
-        p += 1
-        while p <= self._n:
-            self.data[p - 1] += x
-            p += p & -p
- 
-    def sum(self, l, r):
-        assert 0 <= l <= r <= self._n
-        return self._sum(r) - self._sum(l)
- 
-    def _sum(self, r):
-        s = 0
-        while r > 0:
-            s += self.data[r - 1]
-            r -= r & -r
-        return s
-
-# 区間加算・区間和取得するBIP
-class RangeBIT:    
-    def __init__(self, n):
-        class BIT:
-            def __init__(self, n):
-                self.size = n
-                self.arr = [0] * (n + 1)
-
-            def __getitem__(self, i):
-                return self.sum(i + 1) - self.sum(i)
-
-            def sum(self, i):
-                s = 0
-                tmp = i
-                while tmp:
-                    s += self.arr[tmp]
-                    tmp -= tmp & -tmp
-                return s
-
-            def add(self, i, x):
-                tmp = i + 1
-                while tmp <= self.size:
-                    self.arr[tmp] += x
-                    tmp += tmp & -tmp
-        self.bit0 = BIT(n)
-        self.bit1 = BIT(n)
-
-    def add(self, i, j, x):
-        self.bit0.add(i, -x * i)
-        self.bit0.add(j, x * j)
-        self.bit1.add(i, x)
-        self.bit1.add(j, -x)
-
-    def sum(self, i, j):
-        si = self.bit0.sum(i) + self.bit1.sum(i) * i
-        sj = self.bit0.sum(j) + self.bit1.sum(j) * j
-        return sj - si
-
 # メモ化
 from functools import lru_cache
 @lru_cache
@@ -218,79 +155,67 @@ class RollingHash:
         """[l,r)のハッシュ値を取得"""
         return (self.hash[right] - self.hash[left] * self.base_mod[right - left]) % self.mod
 
-# 遅延セグ木(区間加算用）
-class LazySegTree_RAQ:
-    def __init__(self,init_val,segfunc,ide_ele):
-        n = len(init_val)
-        self.segfunc = segfunc
-        self.ide_ele = ide_ele
-        self.num = 1<<(n-1).bit_length()
-        self.tree = [ide_ele]*2*self.num
-        self.lazy = [0]*2*self.num
-        for i in range(n):
-            self.tree[self.num+i] = init_val[i]
-        for i in range(self.num-1,0,-1):
-            self.tree[i] = self.segfunc(self.tree[2*i], self.tree[2*i+1])
-    def gindex(self,l,r):
-        l += self.num
-        r += self.num
-        lm = l>>(l&-l).bit_length()
-        rm = r>>(r&-r).bit_length()
-        while r>l:
-            if l<=lm:
-                yield l
-            if r<=rm:
-                yield r
-            r >>= 1
-            l >>= 1
-        while l:
-            yield l
-            l >>= 1
-    def propagates(self,*ids):
-        for i in reversed(ids):
-            v = self.lazy[i]
-            if v==0:
-                continue
-            self.lazy[i] = 0
-            self.lazy[2*i] += v
-            self.lazy[2*i+1] += v
-            self.tree[2*i] += v
-            self.tree[2*i+1] += v
-    def add(self,l,r,x):
-        ids = self.gindex(l,r)
-        l += self.num
-        r += self.num
-        while l<r:
-            if l&1:
-                self.lazy[l] += x
-                self.tree[l] += x
-                l += 1
-            if r&1:
-                self.lazy[r-1] += x
-                self.tree[r-1] += x
-            r >>= 1
-            l >>= 1
-        for i in ids:
-            self.tree[i] = self.segfunc(self.tree[2*i], self.tree[2*i+1]) + self.lazy[i]
-    def query(self,l,r):
-        self.propagates(*self.gindex(l,r))
-        res = self.ide_ele
-        l += self.num
-        r += self.num
-        while l<r:
-            if l&1:
-                res = self.segfunc(res,self.tree[l])
-                l += 1
-            if r&1:
-                res = self.segfunc(res,self.tree[r-1])
-            l >>= 1
-            r >>= 1
-        return res
+# フェニック木
+class Fenwick_Tree:
+    def __init__(self, n):
+        self._n = n
+        self.data = [0] * n
+ 
+    def add(self, p, x):
+        assert 0 <= p < self._n
+        p += 1
+        while p <= self._n:
+            self.data[p - 1] += x
+            p += p & -p
+ 
+    def sum(self, l, r):
+        assert 0 <= l <= r <= self._n
+        return self._sum(r) - self._sum(l)
+ 
+    def _sum(self, r):
+        s = 0
+        while r > 0:
+            s += self.data[r - 1]
+            r -= r & -r
+        return s
 
-def segfunc(x,y):
-    return x+y
-ide_ele = 0
+# 区間加算・区間和取得するBIP
+class RangeBIT:    
+    def __init__(self, n):
+        class BIT:
+            def __init__(self, n):
+                self.size = n
+                self.arr = [0] * (n + 1)
 
+            def __getitem__(self, i):
+                return self.sum(i + 1) - self.sum(i)
+
+            def sum(self, i):
+                s = 0
+                tmp = i
+                while tmp:
+                    s += self.arr[tmp]
+                    tmp -= tmp & -tmp
+                return s
+
+            def add(self, i, x):
+                tmp = i + 1
+                while tmp <= self.size:
+                    self.arr[tmp] += x
+                    tmp += tmp & -tmp
+        self.bit0 = BIT(n)
+        self.bit1 = BIT(n)
+
+    def add(self, i, j, x):
+        self.bit0.add(i, -x * i)
+        self.bit0.add(j, x * j)
+        self.bit1.add(i, x)
+        self.bit1.add(j, -x)
+
+    def sum(self, i, j):
+        si = self.bit0.sum(i) + self.bit1.sum(i) * i
+        sj = self.bit0.sum(j) + self.bit1.sum(j) * j
+        return sj - si
 
 # 遅延セグ木(区間更新用)
 class LazySegTree_RUQ:
