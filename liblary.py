@@ -336,11 +336,109 @@ class LazySegTree_RUQ:
             r >>= 1
         return res
 
-# 最小:min(x,y) 最大:max(x,y) 区間和:x+y 区間積:x*y 最大公約数 math.gcd(x,y)
+# 最小:min(x,y) 最大:max(x,y)
 def segfunc(x, y):
     pass
     # return 
-# 最小:INF 最大:-INF 区間和:0 区間積:1 最大公約数 0
+# 最小:INF 最大:-INF
+ide_ele = 0
+
+# 遅延セグ木(区間更新・区間加算用)
+class LazySegTree_RSQ_RUQ:
+    def __init__(self, init_list, func, ide_ele):
+        n = len(init_list)
+        self.func = func
+        self.ide_ele = ide_ele
+        self.tree_height = (n - 1).bit_length()
+        self.num = 1 << self.tree_height
+        self.tree = [self.ide_ele] * 2 * self.num
+        self.lazy = [None] * 2 * self.num
+
+        for i in range(n):
+            self.tree[self.num + i] = init_list[i]
+        for i in range(self.num - 1, 0, -1):
+            self.tree[i] = self.func(self.tree[2 * i], self.tree[2 * i + 1])
+
+    def _get_index(self, left, right):
+        """
+        [left, right) で伝播するインデックスを収集
+        """
+        # 最下層から上に調べていく
+        # 最下層の伝播範囲 [i_left, i_right)
+        i_left = left + self.num
+        i_right = right + self.num
+
+        # bit列で右側から見て連続してる 0 の数 (Number of Training Zero)
+        l_ntz = (i_left & -i_left).bit_length() - 1
+        r_ntz = (i_right & -i_right).bit_length() - 1
+
+        indexes = []
+        for i in range(self.tree_height):
+            # 下から i 番目の伝播範囲 [i_left, i_right)
+            i_left >>= 1
+            i_right >>= 1
+            if r_ntz <= i:
+                indexes.append(i_right)
+            if i_left < i_right and l_ntz <= i:
+                indexes.append(i_left)
+        return indexes
+
+    def _propagate(self, indexes):
+        # 上から伝播していくので reversed
+        for i in reversed(indexes):
+            v = self.lazy[i]
+            if v is None:
+                continue
+            v >>= 1
+            self.lazy[2 * i] = v
+            self.tree[2 * i] = v
+            self.lazy[2 * i + 1] = v
+            self.tree[2 * i + 1] = v
+            self.lazy[i] = None
+
+    def update(self, left, right, x):
+        """区間 [left, right) を x で更新"""
+        indexes = self._get_index(left, right)
+        self._propagate(indexes)
+
+        # 木の最下層から update
+        left += self.num
+        right += self.num
+        while left < right:
+            if right & 1:
+                self.lazy[right - 1] = x
+                self.tree[right - 1] = x
+            if left & 1:
+                self.lazy[left] = x
+                self.tree[left] = x
+                left += 1
+            left >>= 1
+            right >>= 1
+            x <<= 1
+        for i in indexes:
+            self.tree[i] = self.func(self.tree[2 * i], self.tree[2 * i + 1])
+
+    def query(self, left, right):
+        """区間 [left, right) で query"""
+        indexes = self._get_index(left, right)
+        self._propagate(indexes)
+
+        # 木の最下層から query
+        left += self.num
+        right += self.num
+        res = self.ide_ele
+        while left < right:
+            if right & 1:
+                res = self.func(res, self.tree[right - 1])
+            if left & 1:
+                res = self.func(res, self.tree[left])
+                left += 1
+            left >>= 1
+            right >>= 1
+        return res
+
+def segfunc(x, y):
+    return x+y
 ide_ele = 0
 
 # https://github.com/shakayami/ACL-for-python/wiki/lazysegtree
