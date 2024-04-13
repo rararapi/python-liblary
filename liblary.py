@@ -689,7 +689,6 @@ class MoStatus():
         self.cnt[element] -= 1
         # TODO:valの更新
 
-
 class Mo():
     def __init__(self, lis, init_queries):
         self.N = len(lis)
@@ -750,3 +749,91 @@ class Mo():
                         self.status.discard(element)
                 prev_l, prev_r = nl, nr
                 self.ans[qi] = self.status.val
+
+
+# 全方位木DP (ReRooting)
+from collections.abc import Callable
+DataType = int
+CostType = int
+class RerootingTreeDP:
+    __slots__ = ('N', 'G')
+
+    def __init__(self, vertex_num: int) -> None:
+        self.N = vertex_num
+        self.G: list[list[tuple[int, CostType]]] = [[] for _ in range(vertex_num)]
+
+    def add_directional_edge(self, u: int, v: int, cost: CostType = 1) -> None:
+        G = self.G
+        G[u].append((v, cost))
+
+    def solve(self,
+              merge: Callable[[DataType, DataType], DataType],
+              e: Callable[[], DataType],
+              leaf: Callable[[], DataType],
+              apply: Callable[[DataType, int, int, CostType], DataType]
+              ) -> list[DataType]:
+        '''
+        Args:
+          merge: (child-data-1, child-data-2) -> merged-data
+          e: () -> zero-data
+          leaf: () -> leaf-data
+          apply: (child-data, child-node, parent-node, cost-of-child-to-parent) -> parent-data-after-one-child-applied
+        '''
+        N, G = self.N, self.G
+        P, O, Pc = self._dfs()
+
+        to_leaf = [leaf() for _ in range(N)]
+        for v in reversed(O):
+            p = P[v]
+            if p != v:
+                to_leaf[p] = merge(to_leaf[p], apply(to_leaf[v], v, p, Pc[v]))
+
+        to_root = [e() for _ in range(N)]
+        ans = [e() for _ in range(N)]
+        for v in O:
+            p = P[v]
+
+            to_nv: list[DataType] = []
+            push = to_nv.append
+            for nv, c in G[v]:
+                if nv == p:
+                    push(apply(to_root[v], nv, v, c))
+                else:
+                    push(apply(to_leaf[nv], nv, v, c))
+
+            L = [e()]
+            push = L.append
+            for dp in to_nv:
+                push(merge(L[-1], dp))
+            R = [e()]
+            push = R.append
+            for dp in reversed(to_nv):
+                push(merge(R[-1], dp))
+            R.reverse()
+
+            ans[v] = L[-1]
+
+            for i, (nv, c) in enumerate(G[v]):
+                if nv == p: continue
+                to_root[nv] = merge(L[i], R[i + 1])
+        return ans
+
+    def _dfs(self, root=0) -> tuple[list[int], list[int], list[int]]:
+        N, G = self.N, self.G
+        parent = [-1] * N
+        parent[root] = root
+        order: list[int] = []
+        append_order = order.append
+        parent_cost = [0] * N
+        stk = [root]
+        push, pop = stk.append, stk.pop
+        while stk:
+            v = pop()
+            append_order(v)
+            for nv, c in G[v]:
+                if parent[nv] >= 0: continue
+                parent[nv] = v
+                parent_cost[nv] = c
+                push(nv)
+        return (parent, order, parent_cost)
+
