@@ -837,3 +837,66 @@ class RerootingTreeDP:
                 push(nv)
         return (parent, order, parent_cost)
 
+# Merge Sort Tree
+from bisect import bisect
+from heapq import merge
+
+class MergesortTree:
+    def __init__(self, arr):
+        self.N0 = 2 ** (len(arr) - 1).bit_length()
+        self.data = [None] * (2 * self.N0)
+        self.data_acc = [[0] for _ in range(2 * self.N0)]
+        for i, a in enumerate(arr):
+            self.data[self.N0 - 1 + i] = [a]
+            self.data_acc[self.N0 - 1 + i].append(a)
+        for i in range(len(arr), self.N0):
+            self.data[self.N0 - 1 + i] = []
+        for i in range(self.N0 - 2, -1, -1):
+            (*self.data[i],) = merge(self.data[2 * i + 1], self.data[2 * i + 2])
+            for tmp in self.data[i]:
+                self.data_acc[i].append(self.data_acc[i][-1] + tmp)
+
+    # Return count of A_i where A_i < k in [l, r) and their sum.
+    def query1(self, l, r, k):
+        L = l + self.N0
+        R = r + self.N0
+        cnt = 0
+        tot = 0
+        while L < R:
+            if R & 1:
+                R -= 1
+                idx = bisect(self.data[R - 1], k - 1)
+                cnt += idx
+                tot += self.data_acc[R - 1][idx]
+            if L & 1:
+                idx = bisect(self.data[L - 1], k - 1)
+                cnt += idx
+                tot += self.data_acc[L - 1][idx]
+                L += 1
+            L >>= 1
+            R >>= 1
+        return cnt, tot
+
+    # Return count and sum elements A_i in [l, r) where a <= A_i < b.
+    def query(self, l, r, a, b):
+        L = l + self.N0
+        R = r + self.N0
+        cnt = 0
+        tot = 0
+        while L < R:
+            if R & 1:
+                R -= 1
+                b_idx = bisect(self.data[R - 1], b - 1)
+                a_idx = bisect(self.data[R - 1], a - 1)
+                cnt += b_idx - a_idx
+                tot += self.data_acc[R - 1][b_idx] - self.data_acc[R - 1][a_idx]
+            if L & 1:
+                b_idx = bisect(self.data[L - 1], b - 1)
+                a_idx = bisect(self.data[L - 1], a - 1)
+                cnt += b_idx - a_idx
+                tot += self.data_acc[L - 1][b_idx] - self.data_acc[L - 1][a_idx]
+                L += 1
+            L >>= 1
+            R >>= 1
+        return cnt, tot
+    
