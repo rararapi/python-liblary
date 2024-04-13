@@ -83,6 +83,10 @@
     "prefix": "li",
     "body": "list(map(int,input().split()))"
   },
+  "list(input())": {
+    "prefix": "liinp",
+    "body": "list(input())"
+  },
   "lambda x:int(x)-1": {
     "prefix": "la",
     "body": "lambda x:int(x)-1"
