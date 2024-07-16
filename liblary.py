@@ -927,4 +927,32 @@ class MergesortTree:
             L >>= 1
             R >>= 1
         return cnt, tot
-    
+
+# 拡張ユークリッド互除法
+def extended_gcd(a, b):
+    """
+    2つの整数aとbの最大公約数（GCD）を拡張ユークリッド互除法で求め、
+    さらに、GCDをaとbの線形結合として表す係数xとyを求める。
+
+    Returns:
+    tuple: (gcd, x, y) 
+    gcdはaとbの最大公約数、xとyはa*x + b*y = gcd(a, b)を満たす係数。
+
+    例:
+    >>> gcd, x, y = extended_gcd(30, 20)
+    >>> gcd
+    10
+    >>> x
+    -1
+    >>> y
+    2
+    >>> 30 * x + 20 * y
+    10
+    """
+    if a == 0:
+        return b, 0, 1
+    else:
+        gcd, x1, y1 = extended_gcd(b % a, a)
+        x = y1 - (b // a) * x1
+        y = x1
+        return gcd, x, y
