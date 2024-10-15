@@ -1223,6 +1223,7 @@ class SuffixArray:
 
         return lcp
 
+# LowLink
 def lowLink(edges):
     """
     edges[from] = [to1, to2, ...]
