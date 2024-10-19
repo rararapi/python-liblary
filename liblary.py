@@ -515,22 +515,35 @@ class UnionFindWithPotential(Generic[T]):
         return -self.table[self.root(x)]
 
 
-# 行列積
-def dot(a, b):
-    if len(a[0]) != len(b):
-        raise ValueError("The number of columns in array 'a' must be equal to the number of rows in array 'b'.")
+# 行列累乗
+class Matrix():
+
+    def __init__(self, MOD=-1):
+        """剰余計算する場合はMODを指定"""
+        self.MOD = MOD
+
+    def mul(self, a, b):
+        L, M, N = len(a), len(b), len(b[0])
+        assert len(a[0]) == M
+        c = [[0] * N for _ in range(L)]
+        for i in range(L):
+            for j in range(N):
+                for k in range(M):
+                    c[i][j] += a[i][k] * b[k][j]
+                    if self.MOD != -1:
+                        c[i][j] %= self.MOD
+        return c
     
-    result = []
-    for i in range(len(a)):
-        row = []
-        for j in range(len(b[0])):
-            sum_val = 0
-            for k in range(len(b)):
-                sum_val += a[i][k] * b[k][j]
-            row.append(sum_val)
-        result.append(row)
-    
-    return result
+    def pow(self, x, n):
+        y = [[0] * len(x) for _ in range(len(x))]
+        for i in range(len(x)):
+            y[i][i] = 1
+        while n > 0:
+            if n & 1:
+                y = self.mul(x, y)
+            x = self.mul(x, x)
+            n >>= 1
+        return y
 
 
 # 強連結成分分解
