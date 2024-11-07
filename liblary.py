@@ -970,6 +970,22 @@ def extended_gcd(a, b):
         y = x1
         return gcd, x, y
 
+# 中国剰余定理
+def crt(r1 :int, m1 :int, r2 :int, m2 :int):
+    # x = r1 (mod m1),  x = r2 (mod m2)
+    # <-> x = r3 (mod m3)
+ 
+    g,p,q = extended_gcd(m1, m2)
+ 
+    if (r2 - r1) % g != 0:
+        return 0, -1
+    
+    m3 = m1 * m2 // g  # lcm of m1 and m2
+    r3 = r1 + m1 * ((r2 - r1) // g * p)
+    r3 %= m3
+ 
+    return (r3, m3)
+
 # Z algorithm
 def z_algorithm(s):
     '''
