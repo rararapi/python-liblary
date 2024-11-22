@@ -84,7 +84,7 @@ for i in range(2, N + 1):
 
 # メモ化
 from functools import lru_cache
-@lru_cache
+@lru_cache(None)
 def calc(x):
     pass
 
