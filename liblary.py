@@ -30,7 +30,7 @@ def make_divisors(n):
     return lower_divisors + upper_divisors[::-1]
 
 
-# 素数判定
+# 素数判定リスト作成
 import math
 def sieve_of_eratosthenes(n):
     prime = [True for i in range(n+1)]
@@ -42,6 +42,7 @@ def sieve_of_eratosthenes(n):
             for j in range(2*i, n+1, i):
                 prime[j] = False
 
+    # return [i for i in range(n+1) if prime[i]] #素数列挙
     return prime
 
 
