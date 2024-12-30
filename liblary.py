@@ -56,8 +56,8 @@ def Base_n_to_10(X,n):
 
 # 10進数からn進数へ
 def Base_10_to_n(X, n):
-    if (int(X/n)):
-        return Base_10_to_n(int(X/n), n)+str(X%n)
+    if (int(X//n)):
+        return Base_10_to_n(int(X//n), n)+str(X%n)
     return str(X%n)
 
 
