@@ -121,7 +121,7 @@
   },
   "sys": {
     "prefix": "sys",
-    "body": ["import sys", "sys.setrecursionlimit(10**6)"]
+    "body": ["import sys", "sys.setrecursionlimit(10**6)", "sys.set_int_max_str_digits(0)"]
   },
   "uf=": {
     "prefix": "uf=",
